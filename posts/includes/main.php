@@ -38,12 +38,6 @@
         </div>
       </div>
 
-      <div class="d-flex justify-content-center">
-        <a  class="btn btn-primary text-white mt-3 px-5">
-          <i class="fa fa-edit"></i> Write a New Post
-        </a>
-      </div>
-
 
     </div>
 

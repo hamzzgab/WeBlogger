@@ -41,9 +41,9 @@
     if (strlen($_POST['username']) < 4) {
       $error['username'] = 'Username should be atleast 4 characters';
     }
-    // if (usernameExists($_POST['username'])) {
-    //   $error['username'] = 'Username exists choose another';
-    // }
+    if (usernameExists($_POST['username'])) {
+      $error['username'] = 'Username exists choose another';
+    }
 
     if (empty($_POST['user_phonenumber'])) {
       $error['user_phonenumber'] = 'Phone Number cannot be empty';
@@ -55,9 +55,9 @@
     if (empty($_POST['user_email'])) {
       $error['user_email'] = 'Email cannot be empty';
     }
-    // if (emailExists($_POST['user_email'])) {
-    //   $error['user_email'] = 'Email exists choose another';
-    // }
+    if (emailExists($_POST['user_email'])) {
+      $error['user_email'] = 'Email exists choose another';
+    }
 
     if (empty($_POST['user_dob'])) {
       $error['user_dob'] = 'DOB cannot be empty';
@@ -186,7 +186,7 @@
 
       <div class="row justify-content-center">
         <input type="submit" name="register" value="Sign Up" class="btn btn-outline-success mr-3">
-        <a href="" class="btn btn-outline-primary">Login</a>
+        <a href="./index.php" class="btn btn-outline-primary">Login</a>
       </div>
 
     </form>
