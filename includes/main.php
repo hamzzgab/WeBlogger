@@ -1,5 +1,4 @@
-<div class="row m-0">
-
+<div class="row m-0 d-flex justify-content-center">
   <?php
   if (isset($_POST['login'])) {
     $user_email = escape($_POST['user_email']);
@@ -8,98 +7,35 @@
   }
   ?>
 
-  <?php if (!empty($_SESSION['user_email'])): ?>
+
+  <?php if (!isLoggedout()): ?>
+    <!-- if the user is logged in -->
     <div class="col-12 col-md-3 my-3 mx-3">
-      <div class="card text-white bg-success">
-        <div class="card-header" style="font-weight: 600; font-size: 1.2rem;">
-          <?php echo $_SESSION['user_firstname'] . '. ' . $_SESSION['user_lastname']; ?>
-        </div>
-        <?php if (!empty($_SESSION['user_image'])): ?>
-          <img src="images/<?php echo $_SESSION['user_image']; ?>" class="card-img-top" alt="">
-        <?php endif; ?>
-
-        <div class="card-body">
-          <p class="card-text text-center" style="font-size: 1.19rem;">
-            <i class="fa fa-envelope"></i> <span><?php echo $_SESSION['user_email']; ?> </span>
-            <br>
-            <i class="fa fa-user"></i> <span><?php echo $_SESSION['username']; ?> </span>
-            <br>
-            <i class="fa fa-phone"></i> <span><?php echo $_SESSION['user_phonenumber']; ?> </span>
-            <br>
-            <i class="fa fa-calendar"></i> <span><?php echo $_SESSION['user_dob']; ?> </span>
-          </p>
-        </div>
-
-        <div class="card-footer border-white d-flex justify-content-between">
-          <a href="" class="btn btn-primary border-white">Profile</a>
-          <form class="" action="./includes/logout.php" method="post">
-            <input type="submit" name="logout" value="Logout" class="form-control btn btn-danger border-white">
-          </form>
-        </div>
-      </div>
-
-      <div class="d-flex justify-content-center">
-        <a  class="btn btn-primary text-white mt-3 px-5">
-          <i class="fa fa-edit"></i> Write a New Post
-        </a>
-      </div>
-
-
+      <?php include 'includes\logged_in_card.php'; ?>
     </div>
-
-
   <?php else: ?>
+    <!-- if the user is logged out -->
     <div class="col-12 col-md-3 my-3 mx-3">
-      <div class="card border-danger">
-        <div class="card-header text-center bg-warning border-danger">
-          <span style="font-weight: 600; font-size: 1.2rem;">
-            Login
-          </span>
-        </div>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <form class="" action="" method="post">
-              <input type="text" name="user_email" class="form-control" placeholder="Email">
-              <input type="password" name="user_password" class="form-control my-2" placeholder="Password">
-              <input type="submit" name="login" value="Sign In" class="form-control btn btn-success ">
-            </form>
-          </li>
-          <li class="list-group-item">
-            <a href="./register.php" class="form-control btn btn-primary">Sign Up</a>
-          </li>
-        </ul>
-      </div>
+      <?php include 'includes/login.php'; ?>
     </div>
-  <?php endif; ?>
+  <?php endif;
 
 
+  $stmt = selectPostsWithStatus('Publish');
+  mysqli_stmt_bind_result($stmt, $post_id, $user_id, $user_firstname, $user_lastname, $user_image,$category_id, $category_name,$post_status_id, $post_status_name,$post_title, $post_content, $post_image, $post_tags, $post_date);
 
+  while (mysqli_stmt_fetch($stmt)) {
+    $post_content = trim(substr($post_content, 0, 45));
+    $post_content = $post_content . "...";
+    $post_date    = date("d-m-Y", strtotime($post_date));
+  ?>
 
+  <!-- displaying the blog  -->
   <div class="col-12 col-md-8 my-3 mx-3">
-    <div class="card border-primary">
-      <div class="card-header border-primary d-flex justify-content-between">
-        <span style="font-weight: 600; font-size: 1.2rem;">
-          <img src="images/27.jpg" width="25" height="25" class="rounded rounded-circle">
-          Hamza. Gabajiwala
-        </span>
-        <span>
-          2 days ago
-        </span>
-      </div>
-      <div class="card-body">
-        <div class="text-center">
-          <h5 class="card-title">Special title treatment</h5>
-        </div>
-
-        <img src="images/27.jpg" class="card-img-top" alt="...">
-
-      </div>
-      <div class="card-footer border-primary">
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-      </div>
-    </div>
+    <?php include 'includes\view_blog_card.php'; ?>
   </div>
 
-
+  <?php
+  }
+  ?>
 </div>

@@ -1,10 +1,18 @@
 <?php
 
+function isLoggedout(){
+  global $connection;
+
+  if (empty($_SESSION['user_role'])) {
+    return true;
+  }
+  return false;
+}
+
 function escape($string){
   global $connection;
   return mysqli_real_escape_string($connection, $string);
 }
-
 
 function confirmQuery($query){
   global $connection;
@@ -13,6 +21,10 @@ function confirmQuery($query){
     die('QUERY ERROR: '. mysqli_error($connection));
   }
 }
+
+
+
+// CHECKING IF SOMETHING EXISTS
 
 function usernameExists($username){
   global $connection;
@@ -37,6 +49,32 @@ function emailExists($user_email){
   }
   return false;
 }
+
+
+//SELECTING QUERIES
+
+function selectPostsWithStatus($status){
+  global $connection;
+  
+  $query  = "SELECT posts.post_id, posts.user_id, users.user_firstname, users.user_lastname, users.user_image, posts.category_id, categories.category_name, ";
+  $query .= "posts.post_status_id, post_status.post_status_name,posts.post_title, posts.post_content, posts.post_image, posts.post_tags, posts.post_date ";
+  $query .= "FROM posts ";
+  $query .= "INNER JOIN categories ON posts.category_id = categories.category_id ";
+  $query .= "INNER JOIN post_status ON posts.post_status_id = post_status.post_status_id ";
+  $query .= "INNER JOIN users ON posts.user_id = users.user_id ";
+  $query .= "WHERE post_status.post_status_name = ?";
+
+  $stmt = mysqli_prepare($connection, $query);
+  mysqli_stmt_bind_param($stmt, "s", $status);
+  confirmQuery($stmt);
+  mysqli_stmt_execute($stmt);
+  return $stmt;
+}
+
+
+
+
+// LOG IN AND REGISTRATION FUNCTIONS
 
 function registerUser($user_firstname, $user_lastname, $username, $user_email, $user_phonenumber, $user_image, $tmp_user_image, $user_dob, $user_password){
   global $connection;

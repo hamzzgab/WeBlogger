@@ -59,7 +59,7 @@
             </form>
           </li>
           <li class="list-group-item">
-            <a href="./register.php" class="form-control btn btn-primary">Sign Up</a>
+            <a href="./register.php" class="form-control btn btn-primary">Sign Down</a>
           </li>
         </ul>
       </div>
@@ -67,7 +67,18 @@
   <?php endif; ?>
 
 
-
+<?php
+$query = mysqli_query($connection,"SELECT * FROM posts");
+confirmQuery($query);
+while($row = mysqli_fetch_assoc($query)){
+  $category_id = $row['category_id'];
+  $post_status_id = $row['post_status_id'];
+  $post_title = $row['post_title'];
+  $post_content = $row['post_content'];
+  $post_image = $row['post_image'];
+  $post_tags = $row['post_tags'];
+?>
+<?php echo $post_title; ?>
 
   <div class="col-12 col-md-8 my-3 mx-3">
     <div class="card border-primary">
@@ -82,7 +93,7 @@
       </div>
       <div class="card-body">
         <div class="text-center">
-          <h5 class="card-title">Special title treatment</h5>
+          <h5 class="card-title"> <?php echo $post_title; ?> </h5>
         </div>
 
         <img src="images/27.jpg" class="card-img-top" alt="...">
@@ -95,5 +106,6 @@
     </div>
   </div>
 
+<?php } ?>
 
 </div>
