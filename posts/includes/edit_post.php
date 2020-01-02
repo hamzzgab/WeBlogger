@@ -46,7 +46,11 @@
 
 
     <?php
-    $query = mysqli_query($connection,"SELECT posts.post_id, posts.user_id, posts.category_id, categories.category_name, posts.post_status_id, post_status.post_status_name,posts.post_title, posts.post_content, posts.post_image, posts.post_tags, posts.post_date FROM posts INNER JOIN categories ON posts.category_id = categories.category_id INNER JOIN post_status ON posts.post_status_id = post_status.post_status_id WHERE post_id = $post_id");
+    $query = "SELECT posts.post_id, posts.user_id, posts.category_id, categories.category_name, posts.post_status_id, ";
+    $query .= "post_status.post_status_name,posts.post_title, posts.post_content, posts.post_image, posts.post_tags, ";
+    $query .= "posts.post_date FROM posts INNER JOIN categories ON posts.category_id = categories.category_id INNER JOIN ";
+    $query .= "post_status ON posts.post_status_id = post_status.post_status_id WHERE post_id = $post_id";
+    $query = mysqli_query($connection, $query);
     confirmQuery($query);
     while($row = mysqli_fetch_assoc($query)){
       $category_id = $row['category_id'];
@@ -91,7 +95,7 @@
       <div class="row">
         <div class="col-12 col-md-3">
           <label class="mt-3">Blog Image</label> <br>
-          <img src="post-images/<?php echo $post_image; ?>" width="auto" height="100">
+          <img src="post-images/<?php echo $post_image; ?>" class="rounded rounded-lg img-fluid">
           <input type="file" name="image">
         </div>
         <!--  BLOG images -->

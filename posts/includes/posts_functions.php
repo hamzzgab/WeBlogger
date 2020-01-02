@@ -1,4 +1,31 @@
 <?php
+
+
+//SELECT POSTS
+function selectUsersPost($user_id){
+  global $connection;
+
+  $query  = "SELECT posts.post_id, posts.user_id, posts.category_id, categories.category_name, posts.post_status_id, ";
+  $query .= "post_status.post_status_name,posts.post_title, posts.post_content, posts.post_image, posts.post_tags, ";
+  $query .= "posts.post_date FROM posts ";
+  $query .= "INNER JOIN categories ON posts.category_id = categories.category_id ";
+  $query .= "INNER JOIN post_status ON posts.post_status_id = post_status.post_status_id ";
+  $query .= "WHERE user_id = ?";
+  $stmt = mysqli_prepare($connection, $query);
+  confirmQuery($stmt);
+  mysqli_stmt_bind_param($stmt, "i", $user_id);
+  mysqli_stmt_execute($stmt);
+  return $stmt;
+}
+
+
+
+
+
+
+
+
+
 function deletePost($post_id){
   global $connection;
 
@@ -23,9 +50,9 @@ function editPost($post_id, $user_id, $category_id, $post_status_id,$post_title,
 
   move_uploaded_file($tmp_post_image, "post-images/$post_image");
 
-  $stmt = mysqli_prepare($connection, "UPDATE posts SET user_id = ?, category_id = ?, post_status_id = ?, post_title = ?, post_content = ?, post_image = ?, post_tags = ?, post_date = now()");
+  $stmt = mysqli_prepare($connection, "UPDATE posts SET user_id = ?, category_id = ?, post_status_id = ?, post_title = ?, post_content = ?, post_image = ?, post_tags = ?, post_date = now() WHERE post_id = ?");
   confirmQuery($stmt);
-  mysqli_stmt_bind_param($stmt, "iiissss", $user_id, $category_id, $post_status_id, $post_title, $post_content, $post_image, $post_tags);
+  mysqli_stmt_bind_param($stmt, "iiissssi", $user_id, $category_id, $post_status_id, $post_title, $post_content, $post_image, $post_tags, $post_id);
   mysqli_stmt_execute($stmt);
 }
 

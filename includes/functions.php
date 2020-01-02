@@ -55,7 +55,7 @@ function emailExists($user_email){
 
 function selectPostsWithStatus($status){
   global $connection;
-  
+
   $query  = "SELECT posts.post_id, posts.user_id, users.user_firstname, users.user_lastname, users.user_image, posts.category_id, categories.category_name, ";
   $query .= "posts.post_status_id, post_status.post_status_name,posts.post_title, posts.post_content, posts.post_image, posts.post_tags, posts.post_date ";
   $query .= "FROM posts ";
@@ -71,7 +71,68 @@ function selectPostsWithStatus($status){
   return $stmt;
 }
 
+function viewPost($post_id){
+  global $connection;
 
+  $query  = "SELECT posts.post_id, posts.user_id, users.user_firstname, users.user_lastname, users.user_image, posts.category_id, categories.category_name, ";
+  $query .= "posts.post_status_id, post_status.post_status_name,posts.post_title, posts.post_content, posts.post_image, posts.post_tags, posts.post_date ";
+  $query .= "FROM posts ";
+  $query .= "INNER JOIN categories ON posts.category_id = categories.category_id ";
+  $query .= "INNER JOIN post_status ON posts.post_status_id = post_status.post_status_id ";
+  $query .= "INNER JOIN users ON posts.user_id = users.user_id ";
+  $query .= "WHERE posts.post_id = ?";
+
+  $stmt = mysqli_prepare($connection, $query);
+  mysqli_stmt_bind_param($stmt, "i", $post_id);
+  confirmQuery($stmt);
+  mysqli_stmt_execute($stmt);
+  return $stmt;
+}
+
+function selectPostsWithCategory($category_id){
+  global $connection;
+
+  $status = 'Publish';
+  $query  = "SELECT posts.post_id, posts.user_id, users.user_firstname, users.user_lastname, users.user_image, posts.category_id, categories.category_name, ";
+  $query .= "posts.post_status_id, post_status.post_status_name,posts.post_title, posts.post_content, posts.post_image, posts.post_tags, posts.post_date ";
+  $query .= "FROM posts ";
+  $query .= "INNER JOIN categories ON posts.category_id = categories.category_id ";
+  $query .= "INNER JOIN post_status ON posts.post_status_id = post_status.post_status_id ";
+  $query .= "INNER JOIN users ON posts.user_id = users.user_id ";
+  $query .= "WHERE posts.category_id = ? AND post_status.post_status_name = ?";
+
+  $stmt = mysqli_prepare($connection, $query);
+  mysqli_stmt_bind_param($stmt, "is", $category_id, $status);
+  confirmQuery($stmt);
+  mysqli_stmt_execute($stmt);
+  return $stmt;
+}
+
+function searchPosts($search){
+  global $connection;
+
+  $search = "%$search%";
+  $query  = "SELECT posts.post_id, posts.user_id, users.user_firstname, users.user_lastname, users.user_image, posts.category_id, categories.category_name, ";
+  $query .= "posts.post_status_id, post_status.post_status_name,posts.post_title, posts.post_content, posts.post_image, posts.post_tags, posts.post_date ";
+  $query .= "FROM posts ";
+  $query .= "INNER JOIN categories ON posts.category_id = categories.category_id ";
+  $query .= "INNER JOIN post_status ON posts.post_status_id = post_status.post_status_id ";
+  $query .= "INNER JOIN users ON posts.user_id = users.user_id ";
+  $query .= "WHERE posts.post_title LIKE ? OR posts.post_content LIKE ? OR posts.post_tags LIKE ? OR categories.category_name LIKE ? OR users.user_firstname LIKE ? OR users.user_lastname LIKE ?";
+  $stmt = mysqli_prepare($connection, $query);
+  mysqli_stmt_bind_param($stmt, "ssssss", $search, $search, $search, $search, $search, $search);
+  confirmQuery($stmt);
+  mysqli_stmt_execute($stmt);
+  return $stmt;
+}
+
+function selectAllCategories(){
+  global $connection;
+
+  $stmt = mysqli_prepare($connection, "SELECT category_id,category_name FROM categories");
+  mysqli_execute($stmt);
+  return $stmt;
+}
 
 
 // LOG IN AND REGISTRATION FUNCTIONS

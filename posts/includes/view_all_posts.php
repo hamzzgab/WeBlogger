@@ -2,11 +2,8 @@
 
 <?php
 
-  $stmt = mysqli_prepare($connection,"SELECT posts.post_id, posts.user_id, posts.category_id, categories.category_name, posts.post_status_id, post_status.post_status_name,posts.post_title, posts.post_content, posts.post_image, posts.post_tags, posts.post_date FROM posts INNER JOIN categories ON posts.category_id = categories.category_id INNER JOIN post_status ON posts.post_status_id = post_status.post_status_id WHERE user_id = ?");
-  confirmQuery($stmt);
   $user_id = $_SESSION['user_id'];
-  mysqli_stmt_bind_param($stmt, "i", $user_id);
-  mysqli_stmt_execute($stmt);
+  $stmt = selectUsersPost($user_id);
   mysqli_stmt_bind_result($stmt, $post_id, $user_id, $category_id, $category_name,$post_status_id, $post_status_name,$post_title, $post_content, $post_image, $post_tags, $post_date);
 
 ?>
@@ -31,7 +28,11 @@
     <tbody>
 
       <?php
-      while (mysqli_stmt_fetch($stmt)) { ?>
+      while (mysqli_stmt_fetch($stmt)) {
+        $post_content = trim(substr($post_content, 0, 45));
+        $post_content = $post_content . "...";
+        $post_date    = date("d-m-Y", strtotime($post_date));
+      ?>
         <tr>
           <td class="text-center">
             <form class="" action="" method="post" onsubmit="return confirm('Are you sure you want to delete?');">
@@ -47,7 +48,7 @@
           </td>
 
           <td class="text-center">
-            <a href="../trek.php?trek_id=<?php echo $trek_id; ?>">
+            <a href="../post.php?post_id=<?php echo $post_id; ?>">
               <i class="fa fa-eye text-dark fa-sm"></i>
             </a>
           </td>

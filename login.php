@@ -1,4 +1,19 @@
-<div class="card border-danger">
+<?php
+include 'includes\header.php';
+session_start();
+include 'includes\functions.php';
+include 'includes\navigation.php';
+
+if (isset($_POST['login'])) {
+  $user_email = escape($_POST['user_email']);
+  $user_password = escape($_POST['user_password']);
+  loginUser($user_email, $user_password);
+}
+
+if (isLoggedout()) { ?>
+
+
+<div class="card border-danger" style="width: 20rem;">
   <div class="card-header text-center bg-warning border-danger">
     <span style="font-weight: 600; font-size: 1.2rem;">
       Login
@@ -17,3 +32,13 @@
     </li>
   </ul>
 </div>
+
+<?php
+}else{
+  header("Location: ./index.php");
+}
+
+?>
+
+
+<?php include 'includes/footer.php'; ?>
