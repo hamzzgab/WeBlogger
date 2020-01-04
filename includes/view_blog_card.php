@@ -7,7 +7,7 @@
         <img src="images/<?php echo $user_image; ?>" width="25" height="25" class="rounded">
       <?php endif; ?>
 
-      <?php echo $user_firstname. ". ". $user_lastname; ?>
+      <?php echo $user_firstname . " " . $user_lastname; ?>
     </span>
     <span>
       <?php echo $post_date; ?>
