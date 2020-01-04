@@ -60,14 +60,21 @@
           <td class="text-center" ><?php echo $post_tags; ?></td>
           <td class="text-center" ><?php echo $post_date; ?></td>
           <td class="text-center"><?php echo $category_name; ?></td>
-          <td class="text-center"><?php echo $post_status_name; ?></td>
+          <td class="text-center">
+              <form class="" action="" method="post" onsubmit="return confirm('Are you sure?')">
+                <input type="hidden" name="post_id" value="<?php echo $post_id; ?>">
+                <input type="hidden" name="post_status_id" value="<?php echo $post_status_id; ?>">
+                <input type="hidden" name="post_status_name" value="<?php echo $post_status_name; ?>">
+                <span  class="badge badge-pill badge-<?php if ($post_status_name == 'Draft') {echo "danger"; }else{ echo "primary"; }?>">
+                  <input type="submit" name="change_status" value="<?php echo $post_status_name; ?>" style="background: none; border:none; font-weight: 600; font-size: 0.9rem;" class="text-light">
+                </span>
+              </form>
+          </td>
         </tr>
 
       <?php
         }
       ?>
-
-
     </tbody>
   </table>
 </div>
@@ -77,5 +84,18 @@
   if (isset($_POST['delete'])) {
     $trek_id = $_POST['post_id'];
     deletePost($post_id);
+  }
+  if (isset($_POST['change_status'])) {
+    $post_id          = $_POST['post_id'];
+    $post_status_id   = $_POST['post_status_id'];
+    $post_status_name = $_POST['post_status_name'];
+
+    if ($post_status_name == 'Draft') {
+      $post_status_id = '2';
+      changePostStatus($post_status_id, $post_id);
+    }elseif ($post_status_name == 'Publish') {
+      $post_status_id = '1';
+      changePostStatus($post_status_id, $post_id);
+    }
   }
 ?>

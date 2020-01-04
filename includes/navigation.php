@@ -67,8 +67,10 @@
     <?php endif; ?>
   </ul>
 
-  <form class="form-inline my-2 my-lg-0" action="" method="post">
-    <input class="form-control mr-sm-2" placeholder="Search"  name="search_for">
+  <form class="form-inline my-2 ml-3 my-lg-0" action="" method="post">
+    <input class="form-control mr-sm-2" aria-label="search" type="search" placeholder="Search"  name="search_for" value="<?php if (isset($_POST['search'])) {
+    echo $_POST['search_for'];
+    } ?>">
     <input type="submit" name="search" value="Search" class="form-control btn btn-outline-light mt-2 mt-sm-0">
   </form>
 

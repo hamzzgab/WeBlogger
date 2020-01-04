@@ -134,16 +134,27 @@ function selectPostsWithCategory($category_id){
 function searchPosts($search){
   global $connection;
 
+  $status = 'Publish';
   $search = "%$search%";
-  $query  = "SELECT posts.post_id, posts.user_id, users.user_firstname, users.user_lastname, users.user_image, posts.category_id, categories.category_name, ";
-  $query .= "posts.post_status_id, post_status.post_status_name,posts.post_title, posts.post_content, posts.post_image, posts.post_tags, posts.post_date ";
+
+  $query  = "SELECT posts.post_id, posts.user_id, ";
+  $query .= "users.user_firstname, users.user_lastname, users.user_image, posts.category_id, categories.category_name, ";
+  $query .= "posts.post_status_id, post_status.post_status_name, ";
+  $query .= "posts.post_title, posts.post_content, posts.post_image, posts.post_tags, posts.post_date ";
   $query .= "FROM posts ";
   $query .= "INNER JOIN categories ON posts.category_id = categories.category_id ";
   $query .= "INNER JOIN post_status ON posts.post_status_id = post_status.post_status_id ";
   $query .= "INNER JOIN users ON posts.user_id = users.user_id ";
-  $query .= "WHERE posts.post_title LIKE ? OR posts.post_content LIKE ? OR posts.post_tags LIKE ? OR categories.category_name LIKE ? OR users.user_firstname LIKE ? OR users.user_lastname LIKE ?";
+  $query .= "WHERE post_status.post_status_name = ? AND posts.post_title LIKE ? ";
+  $query .= "OR post_status.post_status_name = ? AND posts.post_tags LIKE ? ";
+  $query .= "OR post_status.post_status_name = ? AND posts.post_content LIKE ? ";
+  $query .= "OR post_status.post_status_name = ? AND categories.category_name LIKE ? ";
+  $query .= "OR post_status.post_status_name = ? AND users.username LIKE ? ";
+  $query .= "OR post_status.post_status_name = ? AND users.user_firstname LIKE ? ";
+  $query .= "OR post_status.post_status_name = ? AND users.user_lastname LIKE ? ";
+
   $stmt = mysqli_prepare($connection, $query);
-  mysqli_stmt_bind_param($stmt, "ssssss", $search, $search, $search, $search, $search, $search);
+  mysqli_stmt_bind_param($stmt, "ssssssssssssss", $status, $search, $status, $search, $status, $search, $status, $search, $status, $search, $status, $search, $status, $search);
   confirmQuery($stmt);
   mysqli_stmt_execute($stmt);
   return $stmt;

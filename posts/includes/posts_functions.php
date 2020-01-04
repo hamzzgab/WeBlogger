@@ -1,5 +1,15 @@
 <?php
 
+//CHANGE POST STATUS
+function changePostStatus($post_status_id, $post_id){
+  global $connection;
+  
+  $stmt = mysqli_prepare($connection, "UPDATE posts SET post_status_id = ? WHERE post_id = ?");
+  mysqli_stmt_bind_param($stmt, "ii", $post_status_id, $post_id);
+  mysqli_stmt_execute($stmt);
+  confirmQuery($stmt);
+  header("Location: ./posts.php");
+}
 
 //SELECT POSTS
 function selectUsersPost($user_id){
