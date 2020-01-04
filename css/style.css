@@ -1,0 +1,45 @@
+.card-border{
+   border-image: linear-gradient(to right top, #c7b4ee, #b3bef8, #9ec7fc, #8ecffa, #84d6f4, #7fdbf3, #7ce0f0, #7ce5ec, #75ebee, #6df0f0, #66f6f1, #5ffbf1);
+   border-image-slice: 1;
+   border-width: 1px;
+}
+
+.nav-bg{
+  background: -webkit-linear-gradient(to right, #56ccf2, #2f80ed);
+  background: linear-gradient(to right, #56ccf2, #2f80ed);
+}
+
+.read-more-btn{
+ background: #00c6ff;
+ border: none;
+}
+
+ .card-header-footer-bg{
+   background: rgba(238, 242, 243, 0.4);
+}
+
+.login-border{
+  border-image: linear-gradient(to right, #f5af19, #f12711); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  border-image-slice: 1;
+  border-width: 1px;
+}
+
+.text-color-login{
+  text-transform: uppercase;
+  background: linear-gradient(to right, #f5af19 0%, #f12711 100%);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.sign-in-bg{
+  /* background: linear-gradient(to right, #a8ff78, #78ffd6); */
+  background: linear-gradient(to right, #8a2387, #e94057, #f27121);
+  border: none;
+  text-transform: uppercase;
+}
+
+.sign-up-bg{
+  background: linear-gradient(to right, #56ccf2, #2f80ed);
+  border: none;
+  text-transform: uppercase;
+}

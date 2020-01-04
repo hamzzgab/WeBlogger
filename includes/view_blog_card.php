@@ -1,5 +1,5 @@
-<div class="card border-primary">
-  <div class="card-header border-primary d-flex justify-content-between">
+<div class="card card-border">
+  <div class="card-header d-flex justify-content-between card-border card-header-footer-bg">
     <span style="font-weight: 600; font-size: 1.2rem;">
       <img src="images/<?php echo $user_image; ?>" width="25" height="25" class="rounded">
       <?php echo $user_firstname. ". ". $user_lastname; ?>
@@ -16,8 +16,8 @@
     <img src="posts/post-images/<?php echo $post_image; ?>" class="card-img-top rounded rounded-lg">
 
   </div>
-  <div class="card-footer border-primary d-flex justify-content-between">
+  <div class="card-footer d-flex justify-content-between card-border card-header-footer-bg">
     <div class="card-text"><?php echo $post_content; ?></div>
-    <a href="./post.php?post_id=<?php echo $post_id; ?>" class="btn btn-primary">Read More</a>
+    <a href="./post.php?post_id=<?php echo $post_id; ?>" class="btn text-white read-more-btn">Read More</a>
   </div>
 </div>

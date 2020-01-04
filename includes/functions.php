@@ -50,6 +50,14 @@ function emailExists($user_email){
   return false;
 }
 
+function deleteComment($comment_id, $post_id){
+  global $connection;
+
+  $query = mysqli_query($connection, "DELETE FROM comments WHERE comment_id = $comment_id");
+  confirmQuery($query);
+  header("Location: ./post.php?post_id=$post_id");
+}
+
 
 //SELECTING QUERIES
 
@@ -87,6 +95,21 @@ function viewPost($post_id){
   confirmQuery($stmt);
   mysqli_stmt_execute($stmt);
   return $stmt;
+  $stmt->close();
+}
+
+function viewComments($post_id){
+  global $connection;
+  $query = "SELECT comments.user_id, users.user_firstname, users.user_lastname, ";
+  $query .= "users.user_image, comments.comment_content, comments.comment_date FROM comments ";
+  $query .= "INNER JOIN users ON comments.user_id = users.user_id WHERE comments.post_id = ? ";
+  $query .= "ORDER BY comments.comment_date ASC";
+  $stmt = mysqli_prepare($connection, $query);
+  mysqli_stmt_bind_param($stmt, "i", $post_id);
+  confirmQuery($stmt);
+  mysqli_stmt_execute($stmt);
+  return $stmt;
+  $stmt->close();
 }
 
 function selectPostsWithCategory($category_id){
@@ -136,6 +159,12 @@ function selectAllCategories(){
 
 
 // LOG IN AND REGISTRATION FUNCTIONS
+function insertComment($user_id,$post_id,$comment_content){
+  global $connection;
+  $stmt = mysqli_query($connection, "INSERT INTO comments(user_id, post_id, comment_content, comment_date) VALUES($user_id, $post_id, '$comment_content', now())");
+  confirmQuery($stmt);
+  header("Location: ./post.php?post_id=$post_id");
+}
 
 function registerUser($user_firstname, $user_lastname, $username, $user_email, $user_phonenumber, $user_image, $tmp_user_image, $user_dob, $user_password){
   global $connection;

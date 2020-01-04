@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark nav-bg">
   <a class="navbar-brand">WeBlogger</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -43,25 +43,13 @@
         </div>
       </li>
 
-      <?php
-      if (isLoggedout()):
-        ?>
-        <form class="form-inline" action="" method="post">
-          <input class="form-control mr-2" type="text"     placeholder="Email"    name="user_email" >
-          <input class="form-control mr-2" type="password" placeholder="Password" name="user_password" >
-          <input class="form-control mr-2 btn btn-success" type="submit" name="login" value="Login">
-          <a href="./register.php" class="form-control btn btn-light">Sign Up</a>
-        </form>
-        <?php
-    endif;
-    ?>
   </ul>
 
   <ul class="navbar-nav ml-auto">
     <?php if (!isLoggedout()): ?>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <img src="images/<?php echo $_SESSION['user_image']; ?>" class="rounded" width="25" height="25">
+          <img src="images/<?php echo $_SESSION['user_image']; ?>" class="rounded" width="35" height="35">
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="#">Profile</a>
