@@ -44,7 +44,13 @@ while (mysqli_stmt_fetch($stmt)) {
     </div>
 
     <h5 class="lead">
-      <img src="images/<?php echo $user_image; ?>" width="auto" height="65" class="rounded">
+      <?php if (empty($user_image)): ?>
+        <img src="images/default-profile.png" width="auto" height="65" class="rounded">
+      <?php else: ?>
+        <img src="images/<?php echo $user_image; ?>" width="auto" height="65" class="rounded">
+      <?php endif; ?>
+
+
       <span style="font-size:2.2rem;" class="mt-2"><?php echo $user_firstname. ". ". $user_lastname; ?></span>
       <small class="text-muted">(author)</small>
     </h5>
@@ -60,7 +66,10 @@ while (mysqli_stmt_fetch($stmt)) {
 
     <div class="row">
       <div class="col-12 col-md-6">
-        <img src="posts/post-images/<?php echo $post_image; ?>" class="rounded img-fluid">
+        <?php if (!empty($post_image)): ?>
+          <img src="posts/post-images/<?php echo $post_image; ?>" class="rounded img-fluid">
+        <?php endif; ?>
+
       </div>
       <div class="col-12 col-md-6">
         <p><?php echo $post_content; ?></p>
@@ -68,7 +77,7 @@ while (mysqli_stmt_fetch($stmt)) {
     </div>
 
     <?php
-    } 
+    }
       $query = mysqli_query($connection, "SELECT comments.comment_id, comments.user_id, users.user_firstname, users.user_lastname, users.user_image, comments.post_id, comments.comment_content, comments.comment_date FROM comments INNER JOIN users ON comments.user_id = users.user_id WHERE comments.post_id = $post_id ORDER BY comments.comment_id DESC");
       confirmQuery($query);
       include 'includes/comments.php';

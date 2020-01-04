@@ -5,8 +5,14 @@
 
 
     <?php if (!isLoggedout()): ?>
-    <div class="d-flex align-items-start">
-        <img  class="rounded rounded-lg" src="images/<?php echo $_SESSION['user_image']; ?>" width="70" height="70">
+      <div class="d-flex align-items-start">
+        <?php if (empty($_SESSION['user_image'])): ?>
+          <img  class="rounded rounded-lg" src="images/default-profile.png" width="70" height="70">
+        <?php else: ?>
+          <img  class="rounded rounded-lg" src="images/<?php echo $_SESSION['user_image']; ?>" width="70" height="70">        
+        <?php endif; ?>
+
+
         <div class="pl-2">
           <span class="lead" style="font-size: 1.7rem;">
             <?php echo $_SESSION['user_firstname'].". ".$_SESSION['user_lastname']; ?>
@@ -39,9 +45,11 @@
 
     <?php
     while ($row = mysqli_fetch_assoc($query)) {
+      $comment_id       = $row['comment_id'];
+      $user_id          = $row['user_id'];
       $comment_content  = $row['comment_content'];
       $user_firstname   = $row['user_firstname'];
-      $user_lastname    =$row['user_lastname'];
+      $user_lastname    = $row['user_lastname'];
       $user_image       = $row['user_image'];
       $comment_date     = date("d-m-Y", strtotime($row['comment_date']));
       ?>
@@ -50,7 +58,7 @@
       <div class="row">
         <div class="col-12 col-md-9">
           <div class="d-flex align-items-start">
-            <?php if (!empty($user_image)): ?>
+            <?php if (empty($user_image)): ?>
               <img  class="rounded rounded-lg" src="images/default-profile.png" width="70" height="70">
             <?php else: ?>
               <img  class="rounded rounded-lg" src="images/<?php echo $user_image; ?>" width="70" height="70">
@@ -60,7 +68,15 @@
             <div class="pl-2">
               <div class="lead d-flex justify-content-between">
                 <span style="font-size: 1.7rem;" class="d-block"><?php echo $user_firstname.". ".$user_lastname; ?></span>
-                <small class="text-muted d-block pl-2"><?php echo $comment_date; ?></small>
+                <form class="" action="" method="post" onsubmit="confirm('Are you sure you want to delete?')">
+                  <small class="text-muted d-block pl-5"><?php echo $comment_date; ?>
+                    <input type="hidden" name="comment_id" value="<?php echo $comment_id; ?>">
+                    <?php if ($_SESSION['user_id'] == $user_id): ?>
+                      <input type="submit" name="comment_delete" value="Delete" class="btn btn-danger">
+                    <?php endif; ?>
+
+                  </small>
+                </form>
               </div>
               <p class="text-justify">
                 <?php echo $comment_content; ?>
@@ -71,11 +87,21 @@
       </div>
 
       <hr>
-
-
-      <?php
-    }
+    <?php
+      }
     ?>
   </div>
-
 </div>
+
+
+<?php
+if (isset($_POST['comment_delete'])) {
+  $comment_id = $_POST['comment_id'];
+
+  $stmt = mysqli_prepare($connection, "DELETE FROM comments WHERE comment_id = ?");
+  mysqli_stmt_bind_param($stmt, 'i', $comment_id);
+  confirmQuery($stmt);
+  mysqli_stmt_execute($stmt);
+  header("Location: ./post.php?post_id=$post_id");
+}
+?>

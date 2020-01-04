@@ -23,7 +23,6 @@
             <a class="dropdown-item" href="posts/posts.php?source=add_post">Write a new post</a>
           </div>
         </li>
-
       <?php endif; ?>
 
       <li class="nav-item dropdown">
@@ -49,7 +48,12 @@
     <?php if (!isLoggedout()): ?>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <img src="images/<?php echo $_SESSION['user_image']; ?>" class="rounded" width="35" height="35">
+          <?php if (empty($_SESSION['user_image'])): ?>
+            <img  class="rounded" src="images/default-profile.png" width="35" height="35">
+          <?php else: ?>
+            <img src="images/<?php echo $_SESSION['user_image']; ?>" class="rounded" width="35" height="35">
+          <?php endif; ?>
+
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="#">Profile</a>
