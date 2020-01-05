@@ -19,7 +19,7 @@
             Posts
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="posts/posts.php">View My Posts</a>
+            <a class="dropdown-item" href="posts/posts.php?source=view_all_posts">View My Posts</a>
             <a class="dropdown-item" href="posts/posts.php?source=add_post">Write a new post</a>
           </div>
         </li>
@@ -49,9 +49,9 @@
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <?php if (empty($_SESSION['user_image'])): ?>
-            <img  class="rounded" src="images/default-profile.png" width="35" height="35">
+            <img  class="rounded" src="images/default-profile.png" width="30" height="30">
           <?php else: ?>
-            <img src="images/<?php echo $_SESSION['user_image']; ?>" class="rounded" width="35" height="35">
+            <img src="images/<?php echo $_SESSION['user_image']; ?>" class="rounded" width="30" height="30">
           <?php endif; ?>
           <span class="p-1"><?php echo $_SESSION['username']; ?></span>
         </a>

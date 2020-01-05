@@ -36,9 +36,9 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <?php if (empty($_SESSION['user_image'])): ?>
-              <img  class="rounded" src="../images/default-profile.png" width="35" height="35">
+              <img  class="rounded" src="../images/default-profile.png" width="30" height="30">
             <?php else: ?>
-              <img src="../images/<?php echo $_SESSION['user_image']; ?>" class="rounded" width="35" height="35">
+              <img src="../images/<?php echo $_SESSION['user_image']; ?>" class="rounded" width="30" height="30">
             <?php endif; ?>
             <span class="pl-1"><?php echo $_SESSION['username']; ?></span>
           </a>

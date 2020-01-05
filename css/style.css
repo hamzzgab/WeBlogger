@@ -3,7 +3,6 @@
    border-image-slice: 1;
    border-width: 1px;
 }
-
 .nav-bg{
   background: -webkit-linear-gradient(to right, #56ccf2, #2f80ed);
   background: linear-gradient(to right, #56ccf2, #2f80ed);
