@@ -82,8 +82,11 @@ function selectPostsWithStatus($status){
 function viewPost($post_id){
   global $connection;
 
-  $query  = "SELECT posts.post_id, posts.user_id, users.user_firstname, users.user_lastname, users.user_image, posts.category_id, categories.category_name, ";
-  $query .= "posts.post_status_id, post_status.post_status_name,posts.post_title, posts.post_content, posts.post_image, posts.post_tags, posts.post_date ";
+  $query  = "SELECT posts.post_id, ";
+  $query .= "posts.user_id, users.user_firstname, users.user_lastname, users.user_image, ";
+  $query .= "posts.category_id, categories.category_name,";
+  $query .= "posts.post_status_id, post_status.post_status_name, ";
+  $query .= "posts.post_title, posts.post_content, posts.post_image, posts.post_tags, posts.post_date ";
   $query .= "FROM posts ";
   $query .= "INNER JOIN categories ON posts.category_id = categories.category_id ";
   $query .= "INNER JOIN post_status ON posts.post_status_id = post_status.post_status_id ";

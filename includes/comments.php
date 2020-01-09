@@ -71,8 +71,10 @@
                 <form class="" action="" method="post" onsubmit="return confirm('Are you sure you want to delete?')">
                   <small class="text-muted d-block pl-5"><?php echo $comment_date; ?>
                     <input type="hidden" name="comment_id" value="<?php echo $comment_id; ?>">
-                    <?php if ($_SESSION['user_id'] == $user_id): ?>
-                      <input type="submit" name="comment_delete" value="Delete" class="btn btn-danger">
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                      <?php if ($_SESSION['user_id'] == $user_id): ?>
+                        <input type="submit" name="comment_delete" value="Delete" class="btn btn-danger">
+                      <?php endif; ?>
                     <?php endif; ?>
 
                   </small>
@@ -87,8 +89,8 @@
       </div>
 
       <hr>
-    <?php
-      }
+      <?php
+    }
     ?>
   </div>
 </div>
